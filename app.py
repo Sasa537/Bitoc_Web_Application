@@ -18,13 +18,12 @@ login.init_app(app)
 
 @app.route("/")
 def index():
-    #db_user.create_all()
+    # db_user.create_all()
     return render_template('index.html')
 
 
 @app.route("/login")
 def login():
-
     return render_template('login.html')
 
 
@@ -37,10 +36,8 @@ def reg():
         id_btc = request.form['id_btc']
         file = request.files['file']
 
-        user_email = User.query.get(email)
-        if user_email is not None:
+        if User.query.filter(User.email == request.form['email']).all():
             flash('This Email is already use')
-            print(user_email)
             return redirect(request.url)
         if email == "":
             flash('No Email')
@@ -51,11 +48,14 @@ def reg():
         if password == "":
             flash('No Password')
             return redirect(request.url)
+        if file.filename == '':
+            flash('No image selected for uploading')
+            return redirect(request.url)
 
         else:
             filename = secure_filename(file.filename)
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-            avatar = "/avatars/"+filename
+            avatar = "/avatars/" + filename
 
             user = User(email=email, username=username, id_btc=id_btc, avatar=avatar)
             user.set_password(password)
@@ -63,7 +63,7 @@ def reg():
             db_user.session.commit()
             return redirect('/login')
     else:
-      return render_template('register.html')
+        return render_template('register.html')
 
 
 if __name__ == "__main__":
