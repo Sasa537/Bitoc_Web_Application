@@ -12,6 +12,8 @@ class User(UserMixin, db_user.Model):
     email = db_user.Column(db_user.String(80), unique=True)
     username = db_user.Column(db_user.String(100))
     password_hash = db_user.Column(db_user.String())
+    id_btc = db_user.Column(db_user.Integer)
+    avatar = db_user.Column(db_user.String(100))
 
     def check_password(self, password):
         return check_password_hash(self.password_hash, password)
