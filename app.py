@@ -40,13 +40,13 @@ def reg():
             flash('This Email is already use')
             return redirect(request.url)
         if email == "":
-            flash('No Email')
+            flash('No Email. Fill in all the fields')
             return redirect(request.url)
         if username == "":
-            flash('No Username')
+            flash('No Username. Fill in all the fields')
             return redirect(request.url)
         if password == "":
-            flash('No Password')
+            flash('No Password. Fill in all the fields')
             return redirect(request.url)
         if file.filename == '':
             flash('No image selected for uploading')
